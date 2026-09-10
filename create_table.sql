@@ -1,15 +1,14 @@
-
-
 /* Creating geolocation table */
 CREATE TABLE geo_location(
+    geo_location_id SERIAL PRIMARY KEY,
     zipcode char(5),
     latitude double precision,
     longitude double precision,
     city varchar(50),
-    geostate char(2) 
-    );
-    
-    
+    geostate char(2)
+);
+
+
 /* Creating customers datatable */
 CREATE TABLE customers(
     customer_id varchar(50),
@@ -26,7 +25,7 @@ CREATE TABLE sellers(
     seller_id varchar(50),
     seller_zipcode char(5),
     seller_city varchar(50),
-    seller_state varchar(5),
+    seller_state char(2),
     CONSTRAINT seller_key PRIMARY KEY (seller_id)
 );
 
@@ -45,10 +44,11 @@ CREATE TABLE products(
     CONSTRAINT product_key PRIMARY KEY (product_id)
 );
 
+
 /* Creating order datatable */
 CREATE TABLE orders(
     order_id varchar(50),
-    customer_id varchar(50) REFERENCES customers (customer_id),
+    customer_id varchar(50) REFERENCES customers(customer_id),
     order_status varchar(50),
     order_purchase timestamp,
     order_approved timestamp,
@@ -59,55 +59,50 @@ CREATE TABLE orders(
 );
 
 
-
 /* Creating order_payments datatable */
 CREATE TABLE order_payments(
-    order_id varchar(50) REFERENCES orders (order_id),
+    order_id varchar(50) REFERENCES orders(order_id),
     payment_sequential smallint,
     payment_type varchar(20),
     payment_installments smallint,
-    payment_value double precision
+    payment_value double precision,
+    CONSTRAINT order_payment_key
+        PRIMARY KEY (order_id, payment_sequential)
 );
+
 
 /* Creating order_review datatable */
 CREATE TABLE order_reviews(
     review_id varchar(50),
-    order_id varchar(50) REFERENCES orders (order_id), 
+    order_id varchar(50) REFERENCES orders(order_id),
     review_score smallint,
     review_title text,
     review_comment text,
     review_create timestamp,
-    review_answer timestamp
+    review_answer timestamp,
+    CONSTRAINT order_review_key
+        PRIMARY KEY (review_id, order_id)
 );
-
 
 
 /* Creating order_item table */
 CREATE TABLE order_items(
-    order_id varchar(50) REFERENCES orders (order_id),
+    order_id varchar(50) REFERENCES orders(order_id),
     order_item_id smallint,
-    product_id varchar(50) REFERENCES products (product_id),
-    seller_id varchar(50) REFERENCES sellers (seller_id),
+    product_id varchar(50) REFERENCES products(product_id),
+    seller_id varchar(50) REFERENCES sellers(seller_id),
     shipping_limit_date timestamp,
     price real,
-    freight_value real
+    freight_value real,
+    CONSTRAINT order_item_key
+        PRIMARY KEY (order_id, order_item_id)
 );
 
 
 /* Creating product_translation table */
 CREATE TABLE product_translation(
     category varchar(50),
-    category_translation varchar(50)
+    category_translation varchar(50),
+    CONSTRAINT product_translation_key
+        PRIMARY KEY (category)
 );
-
-
-
-
-
-
-
-
-
-
-
-

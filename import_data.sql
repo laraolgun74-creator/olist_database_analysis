@@ -1,52 +1,30 @@
+/*
+Data import script for the Olist PostgreSQL database.
 
-/* importing geo_location data */
-COPY geo_location
-FROM '/home/nabeel/Github/olist_database_analysis/olist_data/olist_geolocation_dataset.csv'
-WITH (FORMAT CSV, HEADER);
+Run this script with psql from the project root directory.
+The CSV files should be located in the olist_data/ directory.
 
+Example:
+    psql -d olist -f import_data.sql
 
+The script uses psql's \copy command so that CSV files are
+read from the local project directory.
+*/
 
-/* importing customers data */
-COPY customers
-FROM '/home/nabeel/Github/olist_database_analysis/olist_data/olist_customers_dataset.csv'
-WITH (FORMAT CSV, HEADER);
+\copy geo_location(zipcode, latitude, longitude, city, geostate) FROM 'olist_data/olist_geolocation_dataset.csv' WITH (FORMAT CSV, HEADER);
 
+\copy customers FROM 'olist_data/olist_customers_dataset.csv' WITH (FORMAT CSV, HEADER);
 
-/* importing sellers data */
-COPY sellers
-FROM '/home/nabeel/Github/olist_database_analysis/olist_data/olist_sellers_dataset.csv'
-WITH (FORMAT CSV, HEADER);
+\copy sellers FROM 'olist_data/olist_sellers_dataset.csv' WITH (FORMAT CSV, HEADER);
 
+\copy products FROM 'olist_data/olist_products_dataset.csv' WITH (FORMAT CSV, HEADER);
 
+\copy orders FROM 'olist_data/olist_orders_dataset.csv' WITH (FORMAT CSV, HEADER);
 
-/* importing products data */
-COPY products
-FROM '/home/nabeel/Github/olist_database_analysis/olist_data/olist_products_dataset.csv'
-WITH (FORMAT CSV, HEADER);
+\copy order_payments FROM 'olist_data/olist_order_payments_dataset.csv' WITH (FORMAT CSV, HEADER);
 
+\copy order_reviews FROM 'olist_data/olist_order_reviews_dataset.csv' WITH (FORMAT CSV, HEADER);
 
-/* importing orders data */
-COPY orders
-FROM '/home/nabeel/Github/olist_database_analysis/olist_data/olist_orders_dataset.csv'
-WITH (FORMAT CSV, HEADER);
+\copy order_items FROM 'olist_data/olist_order_items_dataset.csv' WITH (FORMAT CSV, HEADER);
 
-/* importing order payments data */
-COPY order_payments
-FROM '/home/nabeel/Github/olist_database_analysis/olist_data/olist_order_payments_dataset.csv'
-WITH (FORMAT CSV, HEADER);
-
-
-/* importing order reviews data */
-COPY order_reviews
-FROM '/home/nabeel/Github/olist_database_analysis/olist_data/olist_order_reviews_dataset.csv'
-WITH (FORMAT CSV, HEADER);
-
-/* importing order items data */
-COPY order_items
-FROM '/home/nabeel/Github/olist_database_analysis/olist_data/olist_order_items_dataset.csv'
-WITH (FORMAT CSV, HEADER);
-
-/* importing product translation */
-COPY product_translation
-FROM '/home/nabeel/Github/olist_database_analysis/olist_data/product_category_name_translation.csv'
-WITH (FORMAT CSV, HEADER);
+\copy product_translation FROM 'olist_data/product_category_name_translation.csv' WITH (FORMAT CSV, HEADER);
